@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "apis": [
+    {
+      "identifier": "devpagbank",
+      "source": "@devpagbank/v4.1#dmog6xhlvfo4312",
+      "integrity": "sha512-YAQsRy6/OTDt0xW+RZGpWjpkb3ZJCJAdqpJQoptC/9pJEkJlUVMoyJxuTj80ukezj3RyXi5/8hJipVnUQHdGKw==",
+      "installerVersion": "6.1.1"
+    }
+  ]
+}
