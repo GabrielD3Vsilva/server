@@ -21,7 +21,7 @@ async function AcessVip(req, res) {
             "items": [{
               "name": "Produto",
               "sku": "001",
-              "price": "10.00",
+              "price": "30.00",
               "currency": "BRL",
               "quantity": 1
             }]
@@ -75,7 +75,7 @@ const pagamento = {
         "items": [{
           "name": "Produto",
           "sku": "001",
-          "price": "10.00",
+          "price": "50.00",
           "currency": "BRL",
           "quantity": 1
         }]
