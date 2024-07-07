@@ -35,7 +35,7 @@ async function consult (req, res) {
   let nameProfissional;
 
   if(profissional.length > 0) {
-    nameProfissional = profissional[0].name;
+    nameProfissional = profissional[0].number;
     console.log(nameProfissional);
   }
 
