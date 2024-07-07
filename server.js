@@ -9,4 +9,4 @@ app.use(routes);
 
 app.listen(8080, ( )=>{
     console.log('localhost connected in 8080 port');
-})
+});

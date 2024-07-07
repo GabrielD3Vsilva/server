@@ -16,7 +16,6 @@ routes.post('/getDetails', RegisterController.getDetails);
 routes.post('/aprove', AproveController.aprove);
 routes.post('/reprove', AproveController.reprove);
 routes.post('/getAproved', RegisterController.getProfissionalsAproved);
-routes.post('/payToConsult', pagSeguro.consult);
 routes.post('/consultIds', async (req, res)=>{
     const {emailClient, photo} = req.body;
 
@@ -39,5 +38,7 @@ routes.post('/consultIds', async (req, res)=>{
 
     res.send(obj);
 })
+
+routes.post('/payToConsult', pagSeguro.consult);
 
 module.exports = routes;
