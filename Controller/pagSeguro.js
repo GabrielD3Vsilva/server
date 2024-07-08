@@ -27,6 +27,8 @@ async function AcessVip(req, res) {
   });
 }
 
+
+
 async function consult (req, res) {
   const {idClient, idProfissional} = req.body;
   console.log(idClient, idProfissional);
@@ -38,8 +40,6 @@ async function consult (req, res) {
     nameProfissional = profissional[0].number;
     console.log(nameProfissional);
   }
-
-
 
   const client = new MercadoPagoConfig({ accessToken: "APP_USR-1767806761428068-070620-771a230aa8ff67512387deefe1bd14ef-192552961"});
     
@@ -54,7 +54,9 @@ async function consult (req, res) {
           currency_id: 'BRL',
           unit_price: 50,
           }
-      ]
+      ],back_urls: {
+          success: `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}`,
+      }
   };
 
   await preference.create({body}).then((response)=>{
