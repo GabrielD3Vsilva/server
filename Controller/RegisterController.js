@@ -81,7 +81,8 @@ async function createUserToWork (name, email, password, skills, photo, number) {
             Skills: skills,
             aprove: false,
             photo: photo,
-            number: number
+            number: number,
+            vip: false
         });
    } catch (error) {
         console.log(error);

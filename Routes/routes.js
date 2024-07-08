@@ -41,4 +41,18 @@ routes.post('/consultIds', async (req, res)=>{
 
 routes.post('/payToConsult', pagSeguro.consult);
 
+routes.post('/atributteVip', async (req, res) => {
+    const {email} = req.body;
+
+    await db.User.updateOne(
+        {
+            email: email
+        },
+        {
+            vip: true
+        })
+
+    res.send('ok');
+})
+
 module.exports = routes;

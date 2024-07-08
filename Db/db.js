@@ -14,7 +14,8 @@ const UserSchema = mongoose.Schema(
         Skills: String,
         aprove: Boolean,
         photo: String,
-        number: Number
+        number: Number,
+        vip: Boolean
     }
 )
 
