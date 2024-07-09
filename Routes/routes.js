@@ -44,13 +44,19 @@ routes.post('/payToConsult', pagSeguro.consult);
 routes.post('/atributteVip', async (req, res) => {
     const {email} = req.body;
 
-    await db.User.updateOne(
+     await db.User.updateOne(
         {
             email: email
         },
         {
             vip: true
         })
+
+        const user = await db.User.find({
+            email: email
+        });
+
+    console.log(user)
 
     res.send('ok');
 })
