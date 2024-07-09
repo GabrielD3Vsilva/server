@@ -20,8 +20,8 @@ async function AcessVip(req, res) {
           }
       ], back_urls: {
         success: `https://diasemterapia.com.br/aprovedVip/`,
-        failure: `https://diasemterapia.com.br/await`,
-        pending: `https://diasemterapia.com.br/await`
+        failure: `https://diasemterapia.com.br/await/`,
+        pending: `https://diasemterapia.com.br/await/`
     }
   };
 
@@ -59,7 +59,7 @@ async function consult (req, res) {
           unit_price: 50,
           }
       ],back_urls: {
-          success: `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}`,
+          success: `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}/`,
           failure: `https://diasemterapia.com.br/`,
           pending: `https://diasemterapia.com.br/`
       }
