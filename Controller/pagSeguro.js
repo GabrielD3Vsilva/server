@@ -18,7 +18,11 @@ async function AcessVip(req, res) {
           currency_id: 'BRL',
           unit_price: 30,
           }
-      ]
+      ], back_urls: {
+        success: `https://diasemterapia.com.br/aprovedVip/`,
+        failure: `https://diasemterapia.com.br/await`,
+        pending: `https://diasemterapia.com.br/await`
+    }
   };
 
   await preference.create({body}).then((response)=>{
