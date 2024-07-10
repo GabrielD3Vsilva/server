@@ -65,10 +65,14 @@ async function consult (req, res) {
       }
   };
 
-  await preference.create({body}).then((response)=>{
+  await preference.create({body}).then(async (response)=>{
     console.log(response.init_point);
+
+    await db.User({isAdm: true}, { $push: { list: isProfissional }});
     res.send(response.init_point)
   });
 }
 
-module.exports = { AcessVip, consult };
+
+
+module.exports = { AcessVip, consult, returnInfoConsultToAdm };

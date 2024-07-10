@@ -59,6 +59,8 @@ routes.post('/atributteVip', async (req, res) => {
     console.log(user)
 
     res.send('ok');
-})
+});
+
+routes.post('/returnInfoToAdm', pagSeguro.returnInfoConsultToAdm);
 
 module.exports = routes;

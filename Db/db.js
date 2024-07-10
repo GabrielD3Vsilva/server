@@ -15,8 +15,11 @@ const UserSchema = mongoose.Schema(
         aprove: Boolean,
         photo: String,
         number: Number,
-        vip: Boolean
+        vip: Boolean,
+        list: [Number],
     }
 )
 
-module.exports = {User: mongoose.model('User', UserSchema)}
+module.exports = {
+    User: mongoose.model('User', UserSchema)
+}
