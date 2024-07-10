@@ -75,4 +75,4 @@ async function consult (req, res) {
 
 
 
-module.exports = { AcessVip, consult, returnInfoConsultToAdm };
+module.exports = { AcessVip, consult };

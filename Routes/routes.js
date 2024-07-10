@@ -61,6 +61,6 @@ routes.post('/atributteVip', async (req, res) => {
     res.send('ok');
 });
 
-routes.post('/returnInfoToAdm', pagSeguro.returnInfoConsultToAdm);
+//routes.post('/returnInfoToAdm', pagSeguro.returnInfoConsultToAdm);
 
 module.exports = routes;
