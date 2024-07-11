@@ -61,6 +61,62 @@ routes.post('/atributteVip', async (req, res) => {
     res.send('ok');
 });
 
-//routes.post('/returnInfoToAdm', pagSeguro.returnInfoConsultToAdm);
+routes.post('/getPayments', async(req, res) => {
+
+    const adm = await db.User.find();
+
+    for(let i = 0; i < adm.length; i++) {
+        if(adm[i].isAdm == true) {
+            return res.send(adm[i].list);
+        }
+    }
+});
+
+
+routes.post('/add', async(req, res)=> { 
+    const {idProfissional} = req.body; 
+    console.log(idProfissional); 
+    const adm = await db.User.find( );
+
+    
+    for(let i = 0; i < adm.length; i++) {
+        if(adm[i].isAdm == true) {
+            await db.User.updateOne({_id: adm[i].id},{$push: {list: idProfissional}})
+            return
+        }
+    }
+})
+
+
+routes.post('/returnPay', async(req, res) => {
+    const {info} = req.body;
+
+    const pay = await db.User.find({
+        _id: info
+    });
+
+    console.log(pay)
+
+    res.send(pay);
+});
+
+routes.post('/deleteItem', async(req, res) => {
+    const {id} = req.body;
+
+    const item = await db.User.find( );
+
+    for(let i = 0; i < item.length; i++) {
+        if(item[i].isAdm == true) {
+            await db.User.updateOne({_id: item[i].id},{$pull: {list: id}});
+            break
+        }
+    }
+
+    res.send('ok');
+
+})
+    
+
+
 
 module.exports = routes;

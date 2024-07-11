@@ -31,8 +31,6 @@ async function AcessVip(req, res) {
   });
 }
 
-
-
 async function consult (req, res) {
   const {idClient, idProfissional} = req.body;
   console.log(idClient, idProfissional);
@@ -67,8 +65,7 @@ async function consult (req, res) {
 
   await preference.create({body}).then(async (response)=>{
     console.log(response.init_point);
-
-    await db.User({isAdm: true}, { $push: { list: isProfissional }});
+    
     res.send(response.init_point)
   });
 }

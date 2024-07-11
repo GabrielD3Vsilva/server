@@ -16,7 +16,7 @@ const UserSchema = mongoose.Schema(
         photo: String,
         number: Number,
         vip: Boolean,
-        list: [Number],
+        list: [String],
     }
 )
 
