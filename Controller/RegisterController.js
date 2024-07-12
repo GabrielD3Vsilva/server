@@ -1,4 +1,5 @@
 const db = require('../Db/db');
+const nodemailer = require('nodemailer');
 
 async function getRegisterData (req, res) {
     const {name, email, password, confirmPassword} = req.body;
@@ -27,6 +28,34 @@ async function getRegisterDataToWork (req, res) {
 
         if(!exists){
             await createUserToWork(name, email, password, skills, photo, number);
+
+            let transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'diasemterapia@gmail.com',
+                    pass: '1981abcd.'
+                },tls: {
+                    rejectUnauthorized: false
+                }
+            });
+            
+            // Configure as opções do email
+            let mailOptions = {
+                from: 'diasemterapia@gmail.com',
+                to: 'gabrield3vsilva@gmail.com',
+                subject: 'Novo candidato',
+                text: 'Olá administrador, tem um novo profissional aguardando sua aprovação!'
+            };
+            
+            // Envie o email
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                    console.log('Erro:', error);
+                } else {
+                    console.log('Email enviado:', info.response);
+                }
+            });
+
             return res.status(200).json({message: "OK!"});
         }
 

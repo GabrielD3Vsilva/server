@@ -81,6 +81,33 @@ routes.post('/add', async (req, res) => {
     for (let i = 0; i < adm.length; i++) {
         if (adm[i].isAdm == true) {
             await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idProfissional } });
+
+            let transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'diasemterapia@gmail.com',
+                    pass: '1981abcd.'
+                },tls: {
+                    rejectUnauthorized: false
+                }
+            });
+            
+            // Configure as opções do email
+            let mailOptions = {
+                from: 'diasemterapia@gmail.com',
+                to: 'play.paulo@gmail.com',
+                subject: 'Nova consulta',
+                text: 'Olá administrador, Tem uma nova consulta aprovada com sucesso! acesse seu paínel para ver mais detalhes.'
+            };
+            
+            // Envie o email
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                    console.log('Erro:', error);
+                } else {
+                    console.log('Email enviado:', info.response);
+                }
+            });
             break; // Saia do loop após encontrar o administrador
         }
     }
@@ -90,6 +117,34 @@ routes.post('/add', async (req, res) => {
     for( let i = 0; i < adm.length; i++) {
         if(adm[i]._id == idProfissional) {
             await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idProfissional } });
+
+
+            let transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'diasemterapia@gmail.com',
+                    pass: '1981abcd.'
+                },tls: {
+                    rejectUnauthorized: false
+                }
+            });
+            
+            // Configure as opções do email
+            let mailOptions = {
+                from: 'diasemterapia@gmail.com',
+                to: adm[i].email,
+                subject: 'Nova consulta',
+                text: 'Olá! Um paciente marcou uma consulta contigo! Veja mais detalhes em seu paínel inicial.'
+            };
+            
+            // Envie o email
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                    console.log('Erro:', error);
+                } else {
+                    console.log('Email enviado:', info.response);
+                }
+            });
 
             console.log(adm[i]);
             break

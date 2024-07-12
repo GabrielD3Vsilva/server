@@ -1,4 +1,5 @@
 const { MercadoPagoConfig, Preference } = require('mercadopago');
+
 const db = require('../Db/db');
 
 async function AcessVip(req, res) {
