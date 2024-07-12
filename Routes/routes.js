@@ -73,31 +73,45 @@ routes.post('/getPayments', async(req, res) => {
 });
 
 
-routes.post('/add', async(req, res)=> { 
-    const {idProfissional} = req.body; 
-    console.log(idProfissional); 
-    const adm = await db.User.find( );
-    forAdm( adm );
-    forProfissional( adm, idProfissional );
-});
+routes.post('/add', async (req, res) => {
+    const { idProfissional, idClient } = req.body;
+    console.log(idProfissional);
+    const adm = await db.User.find();
 
-async function forAdm (adm, idProfissional) {
-    for(let i = 0; i < adm.length; i++) {
+    for (let i = 0; i < adm.length; i++) {
+        if (adm[i].isAdm == true) {
+            await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idProfissional } });
+            break; // Saia do loop após encontrar o administrador
+        }
+    }
+
+    // Atualize o idProfissional fora do loop
+
+    for( let i = 0; i < adm.length; i++) {
         if(adm[i]._id == idProfissional) {
-            await db.User.updateOne({_id: adm[i].id},{$push: {list: idProfissional}});
-            return
-        }
-    }
-}
+            await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idProfissional } });
 
-async function forProfissional (adm, id) {
-    for(let i = 0; i < adm.length; i++) {
-        if(adm[i]._id == adm) {
-            await db.User.updateOne({_id: adm[i].id},{$push: {list: idProfissional}});
-            return
+            console.log(adm[i]);
+            break
         }
+
     }
-}
+
+    for( let i = 0; i < adm.length; i++) {
+        if(adm[i]._id == idClient) {
+            await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idProfissional } });
+
+            console.log(adm[i]);
+            break
+        }
+
+    }
+
+    
+
+
+    res.send('Atualização concluída');
+});
 
 
 routes.post('/returnPay', async(req, res) => {
