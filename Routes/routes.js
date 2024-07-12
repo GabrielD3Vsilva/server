@@ -77,15 +77,27 @@ routes.post('/add', async(req, res)=> {
     const {idProfissional} = req.body; 
     console.log(idProfissional); 
     const adm = await db.User.find( );
+    forAdm( adm );
+    forProfissional( adm, idProfissional );
+});
 
-    
+async function forAdm (adm, idProfissional) {
     for(let i = 0; i < adm.length; i++) {
-        if(adm[i].isAdm == true) {
-            await db.User.updateOne({_id: adm[i].id},{$push: {list: idProfissional}})
+        if(adm[i]._id == idProfissional) {
+            await db.User.updateOne({_id: adm[i].id},{$push: {list: idProfissional}});
             return
         }
     }
-})
+}
+
+async function forProfissional (adm, id) {
+    for(let i = 0; i < adm.length; i++) {
+        if(adm[i]._id == adm) {
+            await db.User.updateOne({_id: adm[i].id},{$push: {list: idProfissional}});
+            return
+        }
+    }
+}
 
 
 routes.post('/returnPay', async(req, res) => {
