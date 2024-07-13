@@ -49,19 +49,27 @@ async function consult (req, res) {
   const preference = new Preference(client);
   
   const body = {
-      items: [
-          {
-          id: '1',
-          title: 'consulta com: '+ nameProfissional,
-          quantity: 1,
-          currency_id: 'BRL',
-          unit_price: 50,
-          }
-      ],back_urls: {
-          success: `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}/`,
-          failure: `https://diasemterapia.com.br/`,
-          pending: `https://diasemterapia.com.br/`
+    items: [
+      {
+        title: 'Consulta',
+        quantity: 1,
+        currency_id: 'BRL',
+        unit_price: 50.00
       }
+    ],
+    payment_methods: {
+      excluded_payment_types: [
+        { id: 'ticket' }, // Excluir métodos de pagamento que não sejam Pix
+        { id: 'credit_card' }
+      ],
+      default_payment_method_id: 'pix'
+    },
+    back_urls: {
+      success: `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}`,
+      failure: `https://diasemterapia.com.br/`,
+      pending: `https://diasemterapia.com.br/`
+    },
+    auto_return: 'approved'
   };
 
   await preference.create({body}).then(async (response)=>{
