@@ -44,7 +44,7 @@ async function consult (req, res) {
     console.log(nameProfissional);
   }
 
-  const client = new MercadoPagoConfig({ accessToken: "APP_USR-1767806761428068-070620-771a230aa8ff67512387deefe1bd14ef-192552961"});
+  const client = new MercadoPagoConfig({ accessToken: "TEST-7743467509384373-070619-13a5870da1c1e6170016d55946eb83fd-1840600103"});
     
   const preference = new Preference(client);
   
