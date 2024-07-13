@@ -31,11 +31,11 @@ async function getRegisterDataToWork (req, res) {
 
             let transporter = nodemailer.createTransport({
                 host: 'smtp.gmail.com',
-                port: 587,
-                secure: false,
+                port: 465,
+                secure: true,
                 auth: {
                     user: 'diasemterapia@gmail.com',
-                    pass: 'xnel ewwz aa s hdpy'
+                    pass: 'jqzq jool jevu kexn'
                 }
             });
             
