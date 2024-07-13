@@ -35,7 +35,7 @@ async function getRegisterDataToWork (req, res) {
                 secure: false,
                 auth: {
                     user: 'diasemterapia@gmail.com',
-                    pass: '1981abcd.'
+                    pass: 'xnel ewwz aa s hdpy'
                 }
             });
             
