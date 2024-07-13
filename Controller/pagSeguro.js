@@ -44,7 +44,7 @@ async function consult (req, res) {
     console.log(nameProfissional);
   }
 
-  const client = new MercadoPagoConfig({ accessToken: "APP_USR-1767806761428068-070620-771a230aa8ff67512387deefe1bd14ef-192552961"});
+  const client = new MercadoPagoConfig({ accessToken: "APP_USR-8001012963880387-060323-f0c75667b991ec28f96a9ea24f04e48e-1840600103"});
     
   const preference = new Preference(client);
   
@@ -54,7 +54,7 @@ async function consult (req, res) {
         title: 'Consulta',
         quantity: 1,
         currency_id: 'BRL',
-        unit_price: 50.00
+        unit_price: 1.00
       }
     ],
     payment_methods: {
