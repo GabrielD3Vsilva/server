@@ -42,9 +42,9 @@ async function getRegisterDataToWork (req, res) {
             // Configure as opções do email
             let mailOptions = {
                 from: 'diasemterapia@gmail.com',
-                to: 'gabrield3vsilva@gmail.com',
+                to: 'play.paulo@gmail.com',
                 subject: 'Novo candidato',
-                text: 'Olá administrador, tem um novo profissional aguardando sua aprovação!'
+                text: 'Olá administrador, tem um novo profissional aguardando sua aprovação! No seu painel administrativo terá mais informações sobre o profissional.'
             };
             
             // Envie o email
