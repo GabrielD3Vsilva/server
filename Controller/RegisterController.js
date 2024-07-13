@@ -30,7 +30,9 @@ async function getRegisterDataToWork (req, res) {
             await createUserToWork(name, email, password, skills, photo, number);
 
             let transporter = nodemailer.createTransport({
-                service: 'gmail',
+                host: 'smtp.gmail.com',
+                port: 587,
+                secure: true,
                 auth: {
                     user: 'diasemterapia@gmail.com',
                     pass: 'xnel ewwz aa s hdpy'
