@@ -30,19 +30,19 @@ async function getRegisterDataToWork (req, res) {
             await createUserToWork(name, email, password, skills, photo, number);
 
             let transporter = nodemailer.createTransport({
-                service: 'gmail',
+                host: "smtp@gmail.com",
+                port: 587,
+                secure: true,
                 auth: {
                     user: 'diasemterapia@gmail.com',
                     pass: '1981abcd.'
-                },tls: {
-                    rejectUnauthorized: false
                 }
             });
             
             // Configure as opções do email
             let mailOptions = {
                 from: 'diasemterapia@gmail.com',
-                to: 'play.paulo@gmail.com',
+                to: 'gabrield3vsilva@gmail.com',
                 subject: 'Novo candidato',
                 text: 'Olá administrador, tem um novo profissional aguardando sua aprovação!'
             };
