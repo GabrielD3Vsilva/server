@@ -34,7 +34,7 @@ async function getRegisterDataToWork (req, res) {
                 port: 587,
                 secure: false,
                 auth: {
-                    user: 'diasemterapia',
+                    user: 'diasemterapia@gmail.com',
                     pass: 'xnel ewwz aa s hdpy'
                 }
             });
