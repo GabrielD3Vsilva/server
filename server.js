@@ -4,10 +4,7 @@ const routes = require('./Routes/routes');
 const app = express( );
 
 
-app.use(cors({
-    origin: "https://diasemterapia.com.br",
-    methods: ["GET", "POST"]
-}));
+app.use(cors( ));
 
 
 app.use(express.json( ));
