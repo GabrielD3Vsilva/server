@@ -65,7 +65,7 @@ async function consult (req, res) {
       default_payment_method_id: 'pix'
     },
     back_urls: {
-      success: `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}`,
+      success: `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}/`,
       failure: `https://diasemterapia.com.br/`,
       pending: `https://diasemterapia.com.br/`
     },
