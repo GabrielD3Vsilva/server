@@ -70,7 +70,6 @@ async function consult (req, res) {
       pending: `https://diasemterapia.com.br/`
     },
     auto_return: 'approved',
-    redirectUrl: 'https://diasemterapia.com.br/aprovedConsult/' + idClient + '/' + idProfissional
   };
 
   await preference.create({body}).then(async (response)=>{
