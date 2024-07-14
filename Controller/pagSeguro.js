@@ -74,9 +74,16 @@ async function consult (req, res) {
   };
 
   await preference.create({body}).then(async (response)=>{
-    console.log(response);
-    
-    //res.send(response.init_point)
+    console.log(response.init_point);
+    const webhookUrl = 'https://server-2-4fun.onrender.com/webhook'; // URL do seu endpoint
+    console.log('URL do Webhook:', webhookUrl);
+    console.log('Init Point:', response.init_point);
+  
+    // Configurar o Webhook no Mercado Pago
+    await client.setWebhook(webhookUrl);
+  
+    // Enviar o init_point para o cliente
+    res.send(response.init_point);
   });
 }
 
