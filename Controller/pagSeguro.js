@@ -74,9 +74,9 @@ async function consult (req, res) {
   };
 
   await preference.create({body}).then(async (response)=>{
-    console.log(response.init_point);
+    console.log(response);
     
-    res.send(response.init_point)
+    //res.send(response.init_point)
   });
 }
 
