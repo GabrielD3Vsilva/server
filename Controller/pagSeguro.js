@@ -44,7 +44,7 @@ async function consult (req, res) {
     console.log(nameProfissional);
   }
 
-  const client = new MercadoPagoConfig({ accessToken: "APP_USR-371016937191630-071320-f0d30e9bef4932ece7fa149b355eb8fd-1840600103"});
+  const client = new MercadoPagoConfig({ accessToken: "APP_USR-1767806761428068-070620-771a230aa8ff67512387deefe1bd14ef-192552961"});
     
   const preference = new Preference(client);
   
@@ -65,7 +65,7 @@ async function consult (req, res) {
       default_payment_method_id: 'pix'
     },
     back_urls: {
-      success: `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}/`,
+      success: `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}`,
       failure: `https://diasemterapia.com.br/`,
       pending: `https://diasemterapia.com.br/`
     },

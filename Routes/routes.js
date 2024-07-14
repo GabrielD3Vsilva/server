@@ -83,12 +83,12 @@ routes.post('/add', async (req, res) => {
             await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idProfissional } });
 
             let transporter = nodemailer.createTransport({
-                host: 'smtp.gmail.com',
-                port: 465,
-                secure: true,
+                service: 'gmail',
                 auth: {
                     user: 'diasemterapia@gmail.com',
-                    pass: 'jqzq jool jevu kexn'
+                    pass: '1981abcd.'
+                },tls: {
+                    rejectUnauthorized: false
                 }
             });
             
@@ -120,12 +120,12 @@ routes.post('/add', async (req, res) => {
 
 
             let transporter = nodemailer.createTransport({
-                host: 'smtp.gmail.com',
-                port: 465,
-                secure: true,
+                service: 'gmail',
                 auth: {
                     user: 'diasemterapia@gmail.com',
-                    pass: 'jqzq jool jevu kexn'
+                    pass: '1981abcd.'
+                },tls: {
+                    rejectUnauthorized: false
                 }
             });
             
