@@ -21,13 +21,13 @@ async function getRegisterData (req, res) {
 }
 
 async function getRegisterDataToWork (req, res) {
-    const {name, email, password, confirmPassword, skills, photo, number} = req.body;
+    const {name, email, password, confirmPassword, skills, photo, number, agils} = req.body;
     const isEqual = validateIfPasswordsIsEqual(password, confirmPassword);
     if(isEqual){
         const exists = await validateIfUserExists(email);
 
         if(!exists){
-            await createUserToWork(name, email, password, skills, photo, number);
+            await createUserToWork(name, email, password, skills, photo, number, agils);
 
             let transporter = nodemailer.createTransport({
                 host: 'smtp.gmail.com',
@@ -99,7 +99,7 @@ async function createUser (name, email, password) {
    }
 }
 
-async function createUserToWork (name, email, password, skills, photo, number) {
+async function createUserToWork (name, email, password, skills, photo, number,agils) {
     try {
         await db.User.create({
             name: name,
@@ -111,6 +111,7 @@ async function createUserToWork (name, email, password, skills, photo, number) {
             aprove: false,
             photo: photo,
             number: number,
+            agils: agils,
             vip: false
         });
    } catch (error) {
