@@ -17,7 +17,6 @@ const UserSchema = mongoose.Schema(
         number: Number,
         vip: Boolean,
         list: [String],
-        agils: String
     }
 )
 
