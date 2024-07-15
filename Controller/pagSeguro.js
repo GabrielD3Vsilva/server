@@ -1,4 +1,4 @@
-const { MercadoPagoConfig, Preference } = require('mercadopago');
+const { MercadoPagoConfig, Preference, Payment } = require('mercadopago');
 
 const db = require('../Db/db');
 
@@ -31,6 +31,7 @@ async function AcessVip(req, res) {
     res.send(response.init_point)
   });
 }
+
 
 async function consult (req, res) {
   const {idClient, idProfissional} = req.body;
@@ -69,22 +70,20 @@ async function consult (req, res) {
       failure: `https://diasemterapia.com.br/`,
       pending: `https://diasemterapia.com.br/`
     },
+    notification_url: "https://server-2-4fun.onrender.com/webhook",
     auto_return: 'approved',
   };
 
   await preference.create({body}).then(async (response)=>{
-    console.log(response.init_point);
-    const webhookUrl = 'https://server-2-4fun.onrender.com/webhook'; // URL do seu endpoint
-    console.log('URL do Webhook:', webhookUrl);
-    console.log('Init Point:', response.init_point);
-  
+    console.log(response);
     // Configurar o Webhook no Mercado Pago
-    await client.setWebhook(webhookUrl);
-  
-    // Enviar o init_point para o cliente
+
     res.send(response.init_point);
   });
 }
+
+
+
 
 
 
