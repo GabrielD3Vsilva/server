@@ -197,11 +197,19 @@ routes.post('/deleteItem', async(req, res) => {
 
 })
 
-routes.post('/webhook/:idClient/:idProfissional', (req, res) => {
+routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
     const {idClient, idProfissional} = req.params;
     console.log(req.body);
     // Processar notificação aqui
-    res.redirect(`https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}/`)
+
+    if(req.body.action === "payment.update") {
+        res.writeHead(302, {
+            'Location': `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}/`
+        });
+        res.end();
+    }
+
+
 });
   
     
