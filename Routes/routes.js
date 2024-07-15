@@ -199,8 +199,9 @@ routes.post('/deleteItem', async(req, res) => {
 
 routes.post('/webhook/:idClient/:idProfissional', (req, res) => {
     const {idClient, idProfissional} = req.params;
-    // Processar notificação aqui
-    res.redirect(`https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}`);
+    console.log(req.body);
+    // Processar notificação aqu
+    window.location.href = `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}/`
 });
   
     
