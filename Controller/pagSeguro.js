@@ -70,7 +70,7 @@ async function consult (req, res) {
       failure: `https://diasemterapia.com.br/`,
       pending: `https://diasemterapia.com.br/`
     },
-    notification_url: "https://server-2-4fun.onrender.com/webhook",
+    notification_url: `https://server-2-4fun.onrender.com/webhook/${idClient}/${idProfissional}`,
     auto_return: 'approved',
   };
 
