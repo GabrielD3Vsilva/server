@@ -55,7 +55,7 @@ async function consult (req, res) {
         title: 'Consulta',
         quantity: 1,
         currency_id: 'BRL',
-        unit_price: .10
+        unit_price: .50
       }
     ],
     payment_methods: {
