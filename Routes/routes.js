@@ -216,6 +216,18 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
     res.sendStatus(200); // envia a resposta 200 para o Mercado Pago
 });
 
+routes.post('/findMessages', async (req, res) => {
+    const item = await db.User.find( );
+
+    for(let i = 0; i < item.length; i++) {
+        if(item[i].isAdm == true) {
+            return res.send(item);
+        }
+    }
+
+    
+})
+
 
 
   
