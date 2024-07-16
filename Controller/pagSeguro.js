@@ -55,7 +55,7 @@ async function consult (req, res) {
         title: 'Consulta',
         quantity: 1,
         currency_id: 'BRL',
-        unit_price: .50
+        unit_price: .10
       }
     ],
     payment_methods: {
@@ -64,11 +64,6 @@ async function consult (req, res) {
         { id: 'credit_card' }
       ],
       default_payment_method_id: 'pix'
-    },
-    back_urls: {
-      success: `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}`,
-      failure: `https://diasemterapia.com.br/`,
-      pending: `https://diasemterapia.com.br/`
     },
     notification_url: `https://server-2-4fun.onrender.com/webhook/${idClient}/${idProfissional}`,
     auto_return: 'approved',

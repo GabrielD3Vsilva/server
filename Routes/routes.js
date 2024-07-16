@@ -200,11 +200,12 @@ routes.post('/deleteItem', async(req, res) => {
 
 routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
     const {idClient, idProfissional} = req.params;
+    console.log(idClient, idProfissional)
     console.log(req.body);
     // Processar notificação aqui
 
     if(req.body.action === "payment.update") {
-        res.status(200);
+        res.redirect('https://diasemterapia.com.br/'+idClient+'/'+idProfissional);
     }
     
 
