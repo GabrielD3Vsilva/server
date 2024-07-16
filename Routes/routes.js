@@ -204,10 +204,14 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
     console.log(req.body);
     // Processar notificação aqui
 
-
-    if(req.body.action === "payment.update") {
-        res.redirect('https://diasemterapia.com.br/aprovedConsult'+idClient+'/'+idProfissional);
+    try {
+        if(req.body.action === "payment.update") {
+            res.redirect('https://diasemterapia.com.br/aprovedConsult'+idClient+'/'+idProfissional);
+        }
+    } catch(error){
+        console.log(error)
     }
+
 
 });
   
