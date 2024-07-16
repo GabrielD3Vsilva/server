@@ -207,9 +207,7 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
 
     try {
         if(req.body.action === "payment.update") {
-            setTimeout(() => {
-                res.status(302).redirect('https://www.google.com/');
-            }, 2000); // espera 2 segundos antes de redirecionar
+            return res.redirect(302, 'https://www.google.com/');
         }
     } catch(error){
         console.log(error)
@@ -217,6 +215,7 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
 
     res.sendStatus(200); // envia a resposta 200 para o Mercado Pago
 });
+
 
 
   
