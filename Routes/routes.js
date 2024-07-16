@@ -227,5 +227,21 @@ routes.post('/findMessages', async (req, res) => {
     }
 })
 
+routes.post('/rate', async (req, res)=> {
+    const {idProfissional, comment} = req.body;
+
+
+    const item = await db.User.find( );
+
+    for(let i = 0; i < item.length; i++) {
+        if(item[i]._id == idProfissional) {
+            await db.User.updateOne({_id: item[i].id},{$pull: {Rates: comment}});
+            break
+        }
+    }
+
+    res.send('ok');
+})
+
 
 module.exports = routes;
