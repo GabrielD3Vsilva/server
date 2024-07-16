@@ -164,9 +164,6 @@ routes.post('/add', async (req, res) => {
 
     }
 
-    
-
-
     res.send('Atualização concluída');
 });
 
@@ -229,16 +226,13 @@ routes.post('/findMessages', async (req, res) => {
 
 routes.post('/rate', async (req, res)=> {
     const {idProfissional, comment} = req.body;
+    console.log(idProfissional, comment);
 
+    await db.User.updateOne({_id: idProfissional},{$push: {Rates: comment}}).then(console.log('sucesso')).catch((err)=>console.log(err));
 
-    const item = await db.User.find( );
+    const item = await db.User.find({_id: idProfissional});
 
-    for(let i = 0; i < item.length; i++) {
-        if(item[i]._id == idProfissional) {
-            await db.User.updateOne({_id: item[i].id},{$pull: {Rates: comment}});
-            break
-        }
-    }
+    console.log(item);
 
     res.send('ok');
 })
