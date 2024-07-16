@@ -215,9 +215,16 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
 });
 
 routes.post('/findMessages', async (req, res) => {
-    const item = await db.User.find({isAdm: true});
+    const item = await db.User.find( );
 
-    res.send(item[0].Messages);
+    for( let i = 0; i < item.length; i++) {
+        if(item[i].isAdm == true) {
+            console.log(item[i].Messages);
+            return res.send(item[i].Messages)
+        }
+    }
+
+    
 })
 
 routes.post('/rate', async (req, res)=> {
