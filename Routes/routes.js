@@ -221,18 +221,10 @@ routes.post('/findMessages', async (req, res) => {
 
     for(let i = 0; i < item.length; i++) {
         if(item[i].isAdm == true) {
-            return res.send(item);
+            return res.send(item[i]);
         }
     }
-
-    
 })
-
-
-
-  
-    
-
 
 
 module.exports = routes;
