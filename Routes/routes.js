@@ -235,6 +235,17 @@ routes.post('/rate', async (req, res)=> {
     console.log(item);
 
     res.send('ok');
+});
+
+routes.post('/comments', async (req, res) => {
+    const {photo} = req.body;
+
+    console.log(photo);
+
+    const item = await db.User.find({photo: photo}).then(console.log('ok'));
+    console.log(item)
+    console.log(item[0].Rates)
+    res.send(item[0].Rates);
 })
 
 
