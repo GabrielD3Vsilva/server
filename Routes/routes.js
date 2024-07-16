@@ -207,7 +207,7 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
 
     try {
         if(req.body.action === "payment.update") {
-            return res.redirect(302, 'https://www.google.com/');
+            res.redirect('https://www.google.com/');
         }
     } catch(error){
         console.log(error)
