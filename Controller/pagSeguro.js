@@ -67,8 +67,8 @@ async function consult (req, res) {
     },
     back_urls: {
       success: `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}`,
-      failure: `https://diasemterapia.com.br/`,
-      pending: `https://diasemterapia.com.br/`
+      failure: `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}`,
+      pending: `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}`
     },
     notification_url: `https://server-2-4fun.onrender.com/webhook/${idClient}/${idProfissional}`,
     auto_return: 'approved',
