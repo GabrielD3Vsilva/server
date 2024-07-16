@@ -206,7 +206,7 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
 
     try {
         if(req.body.action === "payment.update") {
-            res.send('<script>window.location.href = `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}`;</script>');
+            res.redirect('https://www.google.com/');
         }
     } catch(error){
         console.log(error)
