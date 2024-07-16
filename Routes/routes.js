@@ -198,6 +198,7 @@ routes.post('/deleteItem', async(req, res) => {
 
 })
 
+
 routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
     const {idClient, idProfissional} = req.params;
     console.log(idClient, idProfissional)
@@ -206,14 +207,18 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
 
     try {
         if(req.body.action === "payment.update") {
-            res.status(302).redirect('https://www.google.com/');
+            setTimeout(() => {
+                res.status(302).redirect('https://www.google.com/');
+            }, 2000); // espera 2 segundos antes de redirecionar
         }
     } catch(error){
         console.log(error)
     }
 
-
+    res.sendStatus(200); // envia a resposta 200 para o Mercado Pago
 });
+
+
   
     
 
