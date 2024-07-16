@@ -5,6 +5,7 @@ const pagSeguro = require('../Controller/pagSeguro');
 const AproveController = require('../Controller/AproveController');
 const db = require('../Db/db');
 
+
 const routes = express.Router( );
 
 routes.post('/register', RegisterController.getRegisterData);
@@ -203,12 +204,9 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
     // Processar notificação aqui
 
     if(req.body.action === "payment.update") {
-        res.writeHead(302, {
-            'Location': `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}/`
-        });
-        res.end();
+        res.status(200);
     }
-
+    
 
 });
   
