@@ -85,7 +85,7 @@ async function validateIfUserExists (email) {
     return false;
 }
 
-async function createUser (name, email, password) {
+async function createUser (name, email, password, number) {
    try {
         await db.User.create({
             name: name,
