@@ -158,9 +158,9 @@ routes.post('/add', async (req, res) => {
         if(adm[i]._id == idClient) {
             await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idClient } });
 
-            await db.User.updateOne({_id: adm[i].id}, { $push: {clients: idProfissional } })
+            await db.User.updateOne({_id: adm[i].id}, { $push: {clients: idProfissional } });
 
-            await db.User.updateOne({_id: idProfissional}, { $push: {clients: idClient } })
+            await db.User.updateOne({_id: idProfissional}, { $push: {clients: idClient } });
 
             console.log(adm[i]);
             break
