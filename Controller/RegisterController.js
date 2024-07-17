@@ -2,14 +2,14 @@ const db = require('../Db/db');
 const nodemailer = require('nodemailer');
 
 async function getRegisterData (req, res) {
-    const {name, email,number, password, confirmPassword, } = req.body;
+    const {name, email, password, confirmPassword, number} = req.body;
     const isEqual = validateIfPasswordsIsEqual(password, confirmPassword);
 
     if(isEqual){
         const exists = await validateIfUserExists(email);
 
         if(!exists){
-            await createUser(name, email, password);
+            await createUser(name, email, password, number);
             return res.status(200).json({message: "OK!"});
         }
 
