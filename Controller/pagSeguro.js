@@ -20,9 +20,9 @@ async function AcessVip(req, res) {
           unit_price: 30,
           }
       ], back_urls: {
-        success: `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}`,
-        failure: `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}`,
-        pending: `https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}`
+        success: `https://diasemterapia.com.br/aprovedVip`,
+        failure: `https://diasemterapia.com.br/aprovedVip`,
+        pending: `https://diasemterapia.com.br/aprovedVip`
     }
   };
 
@@ -55,7 +55,7 @@ async function consult (req, res) {
         title: 'Consulta',
         quantity: 1,
         currency_id: 'BRL',
-        unit_price: .10
+        unit_price: 50,
       }
     ],
     payment_methods: {

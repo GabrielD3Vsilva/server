@@ -2,7 +2,7 @@ const db = require('../Db/db');
 const nodemailer = require('nodemailer');
 
 async function getRegisterData (req, res) {
-    const {name, email, password, confirmPassword} = req.body;
+    const {name, email,number, password, confirmPassword, } = req.body;
     const isEqual = validateIfPasswordsIsEqual(password, confirmPassword);
 
     if(isEqual){
@@ -91,6 +91,7 @@ async function createUser (name, email, password) {
             name: name,
             email: email,
             password: password,
+            number: number,
             isAdm: false,
             isProfissional: false
         })

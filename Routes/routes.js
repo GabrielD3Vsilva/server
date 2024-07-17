@@ -158,6 +158,8 @@ routes.post('/add', async (req, res) => {
         if(adm[i]._id == idClient) {
             await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idProfissional } });
 
+            await db.User.updateOne({_id: adm[i].id}, { $push: {clients: idProfissional } })
+
             console.log(adm[i]);
             break
         }
@@ -197,35 +199,6 @@ routes.post('/deleteItem', async(req, res) => {
 })
 
 
-routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
-    const {idClient, idProfissional} = req.params;
-    console.log(idClient, idProfissional)
-    console.log(req.body);
-    // Processar notificação aqui
-
-    try {
-        if(req.body.action === "payment.update") {
-            res.redirect('https://www.google.com/');
-        }
-    } catch(error){
-        console.log(error)
-    }
-
-    res.sendStatus(200); // envia a resposta 200 para o Mercado Pago
-});
-
-routes.post('/findMessages', async (req, res) => {
-    const item = await db.User.find( );
-
-    for( let i = 0; i < item.length; i++) {
-        if(item[i].isAdm == true) {
-            console.log(item[i].Messages);
-            return res.send(item[i].Messages)
-        }
-    }
-
-    
-})
 
 routes.post('/rate', async (req, res)=> {
     const {idProfissional, comment} = req.body;
