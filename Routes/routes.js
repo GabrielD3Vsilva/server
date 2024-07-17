@@ -160,6 +160,8 @@ routes.post('/add', async (req, res) => {
 
             await db.User.updateOne({_id: adm[i].id}, { $push: {clients: idProfissional } })
 
+            await db.User.updateOne({_id: idProfissional}, { $push: {clients: idClient } })
+
             console.log(adm[i]);
             break
         }
