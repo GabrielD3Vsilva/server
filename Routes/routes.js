@@ -206,10 +206,15 @@ routes.post('/deleteItem', async(req, res) => {
 
 
 routes.post('/rate', async (req, res)=> {
-    const {idProfissional, comment} = req.body;
-    console.log(idProfissional, comment);
+    const {idProfissional, comment, idClient} = req.body;
+    console.log(idProfissional, comment, idClient);
 
+    
     await db.User.updateOne({_id: idProfissional},{$push: {Rates: comment}}).then(console.log('sucesso')).catch((err)=>console.log(err));
+
+    await db.User.updateOne({_id: idProfissional},{$pull: {clients: idProfissional}})
+
+    await db.User.updateOne({_id: idClient},{$pull: {list: idProfissional}})
 
     const item = await db.User.find({_id: idProfissional});
 
