@@ -156,7 +156,7 @@ routes.post('/add', async (req, res) => {
 
     for( let i = 0; i < adm.length; i++) {
         if(adm[i]._id == idClient) {
-            await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idProfissional } });
+            await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idClient } });
 
             await db.User.updateOne({_id: adm[i].id}, { $push: {clients: idProfissional } })
 
@@ -208,7 +208,6 @@ routes.post('/deleteItem', async(req, res) => {
 routes.post('/rate', async (req, res)=> {
     const {idProfissional, comment, idClient} = req.body;
     console.log(idProfissional, comment, idClient);
-
     
     await db.User.updateOne({_id: idProfissional},{$push: {Rates: comment}}).then(console.log('sucesso')).catch((err)=>console.log(err));
 
