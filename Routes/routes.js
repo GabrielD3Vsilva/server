@@ -172,14 +172,19 @@ routes.post('/add', async (req, res) => {
 
 routes.post('/returnPay', async(req, res) => {
     const {info} = req.body;
+    const pay = await db.User.find( );
 
-    const pay = await db.User.find({
-        _id: info
-    });
+    for( let i = 0; i < adm.length; i++) {
+        if(adm[i]._id == info) {
+            return res.send(pay);
+        }
+
+    }
+
 
     console.log(pay)
 
-    res.send(pay);
+    
 });
 
 routes.post('/deleteItem', async(req, res) => {
