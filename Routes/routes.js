@@ -232,12 +232,13 @@ routes.post('/comments', async (req, res) => {
 })
 
 
-routes.post('/webhook', async (req, res) => {
+routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
     const data = req.body;
+    const {idClient, idProfissional} = req.params;
 
-    console.log(data, 'Enviados com sucesso');
+    console.log(idClient, idProfissional, data,  'Enviados com sucesso');
 
-    res.status(200).redirect('https://diasemterapia.com.br');
+    res.sendStatus(200).redirect('https://diasemterapia.com.br/'+idClient+"/"+idProfissional)
 })
 
 module.exports = routes;
