@@ -236,7 +236,9 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
     const data = req.body;
     const {idClient, idProfissional} = req.params;
 
-    console.log(idClient, idProfissional, data,  'Enviados com sucesso')
+    console.log(idClient, idProfissional, data,  'Enviados com sucesso');
+
+    res.status(200).redirect('https://diasemterapia.com.br');
 })
 
 module.exports = routes;
