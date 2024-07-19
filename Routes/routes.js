@@ -182,11 +182,7 @@ routes.post('/returnPay', async(req, res) => {
         }
 
     }
-
-
     console.log(pay)
-
-    
 });
 
 routes.post('/deleteItem', async(req, res) => {
@@ -235,5 +231,12 @@ routes.post('/comments', async (req, res) => {
     res.send(item[0].Rates);
 })
 
+
+routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
+    const data = req.body;
+    const {idClient, idProfissional} = req.params;
+
+    console.log(idClient, idProfissional, data,  'Enviados com sucesso')
+})
 
 module.exports = routes;
