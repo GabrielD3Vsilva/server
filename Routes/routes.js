@@ -202,9 +202,9 @@ routes.post('/returnPay', async(req, res) => {
     const {info} = req.body;
     const pay = await db.User.find( );
 
-    for( let i = 0; i < adm.length; i++) {
-        if(adm[i]._id == info) {
-            return res.send(pay);
+    for( let i = 0; i < pay.length; i++) {
+        if(pay[i]._id == info) {
+            return res.send(pay[i]);
         }
 
     }
