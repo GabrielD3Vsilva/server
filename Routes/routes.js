@@ -250,9 +250,13 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
             const data = await response.json();
 
             console.log(data.status);
+
+            if(data.status == "approved") {
+                res.sendStatus(200);
+            }
         }
 
-        res.sendStatus(200);
+        
     } catch {
         res.sendStatus(500);
     }
