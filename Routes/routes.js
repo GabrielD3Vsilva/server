@@ -205,10 +205,12 @@ routes.post('/deleteItem', async(req, res) => {
 
 
 routes.post('/rate', async (req, res)=> {
-    const {idProfissional, comment, idClient} = req.body;
+    const {idProfissional, comment, idClient, note} = req.body;
     console.log(idProfissional, comment, idClient);
     
     await db.User.updateOne({_id: idProfissional},{$push: {Rates: comment}}).then(console.log('sucesso')).catch((err)=>console.log(err));
+
+    await db.User.updateOne({_id: idProfissional},{$push: {notes: note}}).then(console.log('sucesso')).catch((err)=>console.log(err));
 
     await db.User.updateOne({_id: idProfissional},{$pull: {clients: idProfissional}})
 
