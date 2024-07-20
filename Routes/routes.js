@@ -197,11 +197,15 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
 
 routes.post('/returnPay', async(req, res) => {
     const {info} = req.body;
-    const pay = await db.User.find({_id: info});
+    const pay = await db.User.find( );
 
+    for( let i = 0; i < adm.length; i++) {
+        if(adm[i]._id == info) {
+            return res.send(pay);
+        }
 
-    return res.send(pay);
-
+    }
+    console.log(pay)
 
 });
 
