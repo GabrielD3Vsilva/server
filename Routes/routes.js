@@ -77,113 +77,117 @@ routes.post('/getPayments', async(req, res) => {
 
 routes.post('/add', async (req, res) => {
     const { idProfissional, idClient } = req.body;
-    console.log(idProfissional);
 
+    // Busque os administradores
     const adm = await db.User.find();
 
-    for (let i = 0; i < adm.length; i++) {
-        if (adm[i].isAdm == true) {
-            await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idProfissional } });
-
-            let transporter = nodemailer.createTransport({
-                host: 'smtp.gmail.com',
-                port: 465,
-                secure: true,
-                auth: {
-                    user: 'diasemterapia@gmail.com',
-                    pass: 'jqzq jool jevu kexn'
-                }
-            });
-            
-            // Configure as opções do email
-            let mailOptions = {
-                from: 'diasemterapia@gmail.com',
-                to: 'play.paulo@gmail.com',
-                subject: 'Nova consulta',
-                text: 'Olá administrador, Tem uma nova consulta aprovada com sucesso! acesse seu paínel para ver mais detalhes.'
-            };
-            
-            // Envie o email
-            transporter.sendMail(mailOptions, function(error, info){
-                if (error) {
-                    console.log('Erro:', error);
-                } else {
-                    console.log('Email enviado:', info.response);
-                }
-            });
-            break; // Saia do loop após encontrar o administrador
-        }
-    }
-
     // Atualize o idProfissional fora do loop
+    let foundProfissional = false;
+    let foundClient = false;
 
-    for( let i = 0; i < adm.length; i++) {
-        if(adm[i]._id == idProfissional) {
-            await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idProfissional } });
+    for (let i = 0; i < adm.length; i++) {
+        if (adm[i].isAdm) {
+            // Atualize a lista de profissionais para o administrador
+            await db.User.updateOne({ _id: adm[i].id }, { $addToSet: { list: idProfissional } });
 
-
-            let transporter = nodemailer.createTransport({
-                host: 'smtp.gmail.com',
-                port: 465,
-                secure: true,
-                auth: {
-                    user: 'diasemterapia@gmail.com',
-                    pass: 'jqzq jool jevu kexn'
-                }
-            });
-            
-            // Configure as opções do email
-            let mailOptions = {
-                from: 'diasemterapia@gmail.com',
-                to: adm[i].email,
-                subject: 'Nova consulta',
-                text: 'Olá! Um paciente marcou uma consulta contigo! Veja mais detalhes em seu paínel inicial.'
-            };
-            
-            // Envie o email
-            transporter.sendMail(mailOptions, function(error, info){
-                if (error) {
-                    console.log('Erro:', error);
-                } else {
-                    console.log('Email enviado:', info.response);
-                }
-            });
-
-            console.log(adm[i]);
-            break
+            // Envie um email para o administrador
+            sendEmailToAdmin(adm[i].email, 'Nova consulta', 'Olá administrador, Tem uma nova consulta aprovada com sucesso! Acesse seu painel para ver mais detalhes.');
+            foundProfissional = true;
+            break;
         }
-
     }
 
-    for( let i = 0; i < adm.length; i++) {
-        if(adm[i]._id == idClient) {
-            await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idClient } });
-
-            await db.User.updateOne({_id: adm[i].id}, { $push: {clients: idProfissional } });
-
-            await db.User.updateOne({_id: idProfissional}, { $push: {clients: idClient } });
-
-            console.log(adm[i]);
-            break
+    // Atualize a lista de clientes para o profissional
+    for (let i = 0; i < adm.length; i++) {
+        if (adm[i]._id == idProfissional) {
+            await db.User.updateOne({ _id: adm[i].id }, { $addToSet: { list: idProfissional } });
+            sendEmailToUser(adm[i].email, 'Nova consulta', 'Olá! Um paciente marcou uma consulta contigo! Veja mais detalhes em seu painel inicial.');
+            foundClient = true;
+            break;
         }
+    }
 
+    // Atualize a lista de clientes para o cliente
+    if (foundClient) {
+        await db.User.updateOne({ _id: idClient }, { $addToSet: { list: idClient } });
+        await db.User.updateOne({ _id: adm[i].id }, { $addToSet: { clients: idProfissional } });
+        await db.User.updateOne({ _id: idProfissional }, { $addToSet: { clients: idClient } });
     }
 
     res.send('Atualização concluída');
 });
 
 
+// Função para enviar email
+function sendEmailToAdmin(to, subject, text) {
+    // Configurações do transporte de email
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+            user: 'diasemterapia@gmail.com',
+            pass: 'jqzq jool jevu kexn'
+        }
+    });
+
+    // Opções do email
+    const mailOptions = {
+        from: 'diasemterapia@gmail.com',
+        to: to,
+        subject: subject,
+        text: text
+    };
+
+    // Envie o email
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log('Erro:', error);
+        } else {
+            console.log('Email enviado:', info.response);
+        }
+    }); 
+}
+
+function sendEmailToUser(to, subject, text) {
+    // Configurações do transporte de email
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+            user: 'diasemterapia@gmail.com',
+            pass: 'jqzq jool jevu kexn'
+        }
+    });
+
+    // Opções do email
+    const mailOptions = {
+        from: 'diasemterapia@gmail.com',
+        to: to,
+        subject: subject,
+        text: text
+    };
+
+    // Envie o email
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log('Erro:', error);
+        } else {
+            console.log('Email enviado:', info.response);
+        }
+    }); 
+}
+
+
 routes.post('/returnPay', async(req, res) => {
     const {info} = req.body;
-    const pay = await db.User.find( );
+    const pay = await db.User.find({_id: info});
 
-    for( let i = 0; i < adm.length; i++) {
-        if(adm[i]._id == info) {
-            return res.send(pay);
-        }
 
-    }
-    console.log(pay)
+    return res.send(pay);
+
+
 });
 
 routes.post('/deleteItem', async(req, res) => {
@@ -206,11 +210,29 @@ routes.post('/deleteItem', async(req, res) => {
 
 routes.post('/rate', async (req, res)=> {
     const {idProfissional, comment, idClient, note} = req.body;
-    console.log(idProfissional, comment, idClient);
+    let Vnote;
+    console.log(idProfissional, comment, idClient, note);
     
     await db.User.updateOne({_id: idProfissional},{$push: {Rates: comment}}).then(console.log('sucesso')).catch((err)=>console.log(err));
 
-    await db.User.updateOne({_id: idProfissional},{$push: {notes: note}}).then(console.log('sucesso')).catch((err)=>console.log(err));
+
+    if(note == 'excelente') {
+        Vnote = 5
+    }
+
+    if(note == 'bom') {
+        Vnote = 4
+    }
+
+    if(note == 'regular') {
+        Vnote = 3
+    }
+
+    if(note == 'ruim') {
+        Vnote = 2
+    }
+
+    await db.User.updateOne({_id: idProfissional},{$push: {notes: Vnote}}).then(console.log('sucesso')).catch((err)=>console.log(err));
 
     await db.User.updateOne({_id: idProfissional},{$pull: {clients: idProfissional}})
 
