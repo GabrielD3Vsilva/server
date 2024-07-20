@@ -253,8 +253,6 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
                 res.redirect(`https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}`)
             }
         }
-
-        res.sendStatus(200);
     } catch {
         res.sendStatus(500);
     }
