@@ -233,12 +233,33 @@ routes.post('/comments', async (req, res) => {
 
 
 routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
-    const data = req.body;
+    const payment = req.query;
+    console.log({payment});
+    const {paymentId} = req.query.id;
     const {idClient, idProfissional} = req.params;
 
-    console.log(idClient, idProfissional, data,  'Enviados com sucesso');
+    try {
+        const response = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer APP_USR-1767806761428068-070620-771a230aa8ff67512387deefe1bd14ef-192552961"
+            }
+        })
 
-    res.sendStatus(200).redirect('https://diasemterapia.com.br/'+idClient+"/"+idProfissional)
+        if(response.ok) {
+            const data = await response.json();
+
+            console.log(data);
+        }
+
+        res.sendStatus(200);
+    } catch {
+        res.sendStatus(500);
+    }
+
+    
+
+
 })
 
 module.exports = routes;
