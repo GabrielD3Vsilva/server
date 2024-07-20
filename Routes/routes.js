@@ -78,6 +78,7 @@ routes.post('/getPayments', async(req, res) => {
 routes.post('/add', async (req, res) => {
     const { idProfissional, idClient } = req.body;
     console.log(idProfissional);
+    
     const adm = await db.User.find();
 
     for (let i = 0; i < adm.length; i++) {
@@ -251,24 +252,10 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
 
             console.log(data.status);
 
-            const response = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
-                method: "PUT",
-                headers: {
-                    "Authorization": "Bearer APP_USR-1767806761428068-070620-771a230aa8ff67512387deefe1bd14ef-192552961",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    "status": "approved"
-                })
-            });
-        
-            if(response.ok) {
-                const updatedPayment = await response.json();
+            if(data.status == "approved") {
                 
-                console.log(updatedPayment);
-                res.sendStatus(200);
-            } else {
-                res.sendStatus(500);
+                
+
             }
         }
 
