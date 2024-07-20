@@ -235,7 +235,7 @@ routes.post('/comments', async (req, res) => {
 routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
     const payment = req.query;
     console.log({payment});
-    const paymentId = payment.payment['data.id']
+    const paymentId = payment.id
     const {idClient, idProfissional} = req.params;
 
     try {
