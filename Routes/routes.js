@@ -65,9 +65,15 @@ routes.post('/atributteVip', async (req, res) => {
 
 routes.post('/getPayments', async(req, res) => {
 
-    const adm = await db.User.find({isAdm: true});
+    const adm = await db.User.find( );
 
-    return res.send(adm.list);
+    for( let i = 0; i < adm.length; i++ ) {
+        if( adm[i].isAdm == true ) {
+            return res.send(adm[i].list);
+        }
+    }
+
+    
 
 });
 
