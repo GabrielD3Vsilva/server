@@ -251,8 +251,24 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
 
             console.log(data.status);
 
-            if(data.status == "approved") {
+            const response = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
+                method: "PUT",
+                headers: {
+                    "Authorization": "Bearer APP_USR-1767806761428068-070620-771a230aa8ff67512387deefe1bd14ef-192552961",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "status": "approved"
+                })
+            });
+        
+            if(response.ok) {
+                const updatedPayment = await response.json();
+                
+                console.log(updatedPayment);
                 res.sendStatus(200);
+            } else {
+                res.sendStatus(500);
             }
         }
 
@@ -260,10 +276,6 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
     } catch {
         res.sendStatus(500);
     }
-
-    
-
-
 })
 
 module.exports = routes;
