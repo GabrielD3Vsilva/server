@@ -235,7 +235,7 @@ routes.post('/comments', async (req, res) => {
 routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
     const payment = req.query;
     console.log({payment});
-    const paymentId = payment.id
+    const paymentId = payment.id;
     const {idClient, idProfissional} = req.params;
 
     try {
@@ -249,10 +249,10 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
         if(response.ok) {
             const data = await response.json();
 
-            if(data.status == "approved") {
-                res.redirect(`https://diasemterapia.com.br/aprovedConsult/${idClient}/${idProfissional}`)
-            }
+            console.log(data.status);
         }
+
+        res.sendStatus(200);
     } catch {
         res.sendStatus(500);
     }
