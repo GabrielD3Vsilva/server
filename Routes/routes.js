@@ -75,109 +75,124 @@ routes.post('/getPayments', async(req, res) => {
 });
 
 
-routes.post('/add', async (req, res) => {
-    const { idProfissional, idClient } = req.body;
+routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
+    const payment = req.query;
+    console.log({payment});
+    const paymentId = payment.id;
+    const {idClient, idProfissional} = req.params;
 
-    // Busque os administradores
-    const adm = await db.User.find();
+    try {
+        const response = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer APP_USR-1767806761428068-070620-771a230aa8ff67512387deefe1bd14ef-192552961"
+            }
+        })
+
+        if(response.ok) {
+            const data = await response.json();
+
+            console.log(data.status);
+
+            if(data.status == "approved") {
+                const adm = await db.User.find();
+
+    for (let i = 0; i < adm.length; i++) {
+        if (adm[i].isAdm == true) {
+            await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idProfissional } });
+
+            let transporter = nodemailer.createTransport({
+                host: 'smtp.gmail.com',
+                port: 465,
+                secure: true,
+                auth: {
+                    user: 'diasemterapia@gmail.com',
+                    pass: 'jqzq jool jevu kexn'
+                }
+            });
+            
+            // Configure as opções do email
+            let mailOptions = {
+                from: 'diasemterapia@gmail.com',
+                to: 'play.paulo@gmail.com',
+                subject: 'Nova consulta',
+                text: 'Olá administrador, Tem uma nova consulta aprovada com sucesso! acesse seu paínel para ver mais detalhes.'
+            };
+            
+            // Envie o email
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                    console.log('Erro:', error);
+                } else {
+                    console.log('Email enviado:', info.response);
+                }
+            });
+            break; // Saia do loop após encontrar o administrador
+        }
+    }
 
     // Atualize o idProfissional fora do loop
-    let foundProfissional = false;
-    let foundClient = false;
 
-    for (let i = 0; i < adm.length; i++) {
-        if (adm[i].isAdm) {
-            // Atualize a lista de profissionais para o administrador
-            await db.User.updateOne({ _id: adm[i].id }, { $addToSet: { list: idProfissional } });
+    for( let i = 0; i < adm.length; i++) {
+        if(adm[i]._id == idProfissional) {
+            await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idProfissional } });
 
-            // Envie um email para o administrador
-            sendEmailToAdmin(adm[i].email, 'Nova consulta', 'Olá administrador, Tem uma nova consulta aprovada com sucesso! Acesse seu painel para ver mais detalhes.');
-            foundProfissional = true;
-            break;
+
+            let transporter = nodemailer.createTransport({
+                host: 'smtp.gmail.com',
+                port: 465,
+                secure: true,
+                auth: {
+                    user: 'diasemterapia@gmail.com',
+                    pass: 'jqzq jool jevu kexn'
+                }
+            });
+            
+            // Configure as opções do email
+            let mailOptions = {
+                from: 'diasemterapia@gmail.com',
+                to: adm[i].email,
+                subject: 'Nova consulta',
+                text: 'Olá! Um paciente marcou uma consulta contigo! Veja mais detalhes em seu paínel inicial.'
+            };
+            
+            // Envie o email
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                    console.log('Erro:', error);
+                } else {
+                    console.log('Email enviado:', info.response);
+                }
+            });
+
+            console.log(adm[i]);
+            break
         }
+
     }
 
-    // Atualize a lista de clientes para o profissional
-    for (let i = 0; i < adm.length; i++) {
-        if (adm[i]._id == idProfissional) {
-            await db.User.updateOne({ _id: adm[i].id }, { $addToSet: { list: idProfissional } });
-            sendEmailToUser(adm[i].email, 'Nova consulta', 'Olá! Um paciente marcou uma consulta contigo! Veja mais detalhes em seu painel inicial.');
-            foundClient = true;
-            break;
+    for( let i = 0; i < adm.length; i++) {
+        if(adm[i]._id == idClient) {
+            await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idClient } });
+
+            await db.User.updateOne({_id: adm[i].id}, { $push: {clients: idProfissional } });
+
+            await db.User.updateOne({_id: idProfissional}, { $push: {clients: idClient } });
+
+            console.log(adm[i]);
+            break
         }
+
     }
 
-    // Atualize a lista de clientes para o cliente
-    if (foundClient) {
-        await db.User.updateOne({ _id: idClient }, { $addToSet: { list: idClient } });
-        await db.User.updateOne({ _id: adm[i].id }, { $addToSet: { clients: idProfissional } });
-        await db.User.updateOne({ _id: idProfissional }, { $addToSet: { clients: idClient } });
+            }
+        }
+
+        
+    } catch {
+        res.sendStatus(500);
     }
-
-    res.send('Atualização concluída');
-});
-
-
-// Função para enviar email
-function sendEmailToAdmin(to, subject, text) {
-    // Configurações do transporte de email
-    const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
-        auth: {
-            user: 'diasemterapia@gmail.com',
-            pass: 'jqzq jool jevu kexn'
-        }
-    });
-
-    // Opções do email
-    const mailOptions = {
-        from: 'diasemterapia@gmail.com',
-        to: to,
-        subject: subject,
-        text: text
-    };
-
-    // Envie o email
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log('Erro:', error);
-        } else {
-            console.log('Email enviado:', info.response);
-        }
-    }); 
-}
-
-function sendEmailToUser(to, subject, text) {
-    // Configurações do transporte de email
-    const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
-        auth: {
-            user: 'diasemterapia@gmail.com',
-            pass: 'jqzq jool jevu kexn'
-        }
-    });
-
-    // Opções do email
-    const mailOptions = {
-        from: 'diasemterapia@gmail.com',
-        to: to,
-        subject: subject,
-        text: text
-    };
-
-    // Envie o email
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log('Erro:', error);
-        } else {
-            console.log('Email enviado:', info.response);
-        }
-    }); 
-}
+})
 
 
 routes.post('/returnPay', async(req, res) => {
