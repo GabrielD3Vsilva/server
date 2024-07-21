@@ -204,11 +204,12 @@ routes.post('/returnPay', async(req, res) => {
 
     for( let i = 0; i < pay.length; i++) {
         if(pay[i]._id == info) {
-            return res.send(pay[i]);
+            console.log(pay[i])
+
+            res.send(pay[i])
         }
 
     }
-    console.log(pay)
 
 });
 
