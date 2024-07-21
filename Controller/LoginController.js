@@ -21,6 +21,8 @@ async function getLoginData (req, res) {
                     email: userInDb[0].email,
                     clients: userInDb[0].clients,
                     number: userInDb[0].number,
+                    notes: userInDb[0].notes,
+                    vip: userInDb[0].vip
                 });
         } else {
             return res.status(400).json({message: "usuário não encontrado"});

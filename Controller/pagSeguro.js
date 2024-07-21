@@ -20,10 +20,10 @@ async function AcessVip(req, res) {
           unit_price: 30,
           }
       ], back_urls: {
-        success: `https://diasemterapia.com.br/aprovedVip`,
-        failure: `https://diasemterapia.com.br/aprovedVip`,
-        pending: `https://diasemterapia.com.br/aprovedVip`
-    }
+        success: `https://diasemterapia.com.br/login`,
+        failure: `https://diasemterapia.com.br/login`,
+        pending: `https://diasemterapia.com.br/login`
+    }, notification_url: `https://server-2-4fun.onrender.com/web/${email}`,
   };
 
   await preference.create({body}).then((response)=>{
@@ -55,7 +55,7 @@ async function consult (req, res) {
         title: 'Consulta',
         quantity: 1,
         currency_id: 'BRL',
-        unit_price: .05,
+        unit_price: 50,
       }
     ],
     payment_methods: {

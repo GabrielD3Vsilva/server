@@ -399,4 +399,33 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
     }
 })
 
+routes.post('/web/:email', async (req, res) =>{
+    const payment = req.query;
+    console.log({payment});
+    const paymentId = payment.id;
+    const {email} = req.params;
+
+    try {
+        const response = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer APP_USR-1767806761428068-070620-771a230aa8ff67512387deefe1bd14ef-192552961"
+            }
+        });
+
+        if(response.ok) {
+            const data = await response.json();
+
+            console.log(data.status);
+
+            if(data.status == "approved") {
+                await db.User.updateOne({email: email}, {vip: true});
+            }
+        }
+
+    } catch {
+        console.log(error)
+    }
+})
+
 module.exports = routes;

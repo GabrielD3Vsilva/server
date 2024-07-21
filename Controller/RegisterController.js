@@ -150,7 +150,7 @@ async function getDetails (req, res) {
 async function getProfissionalsAproved (req, res) {
     const profissionals = await db.User.find({
         isProfissional: true,
-        aprove: true
+        aprove: true, 
     });
 
     console.log(profissionals)
