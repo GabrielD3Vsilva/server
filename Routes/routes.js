@@ -300,7 +300,7 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
 
             console.log(data.status);
 
-            if(data.status == "approved" && ) {
+            if(data.status == "approved" && p.data.action=="payment.update") {
                 //const adm = await db.User.find();
 
 
@@ -337,7 +337,7 @@ routes.post('/web/:email', async (req, res) =>{
 
             console.log(data.status);
 
-            if(data.status == "approved" && p.data.action=="payment.update") {
+            if(data.status == "approved") {
                 await db.User.updateOne({email: email}, {vip: true});
             }
         }
