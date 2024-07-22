@@ -282,6 +282,7 @@ routes.post('/comments', async (req, res) => {
 
 routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
     const payment = req.query;
+    console.log(req.body);
     console.log({payment});
     const paymentId = payment.id;
     const {idClient, idProfissional} = req.params;
@@ -300,9 +301,9 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
             console.log(data.status);
 
             if(data.status == "approved") {
-                const adm = await db.User.find();
+                //const adm = await db.User.find();
 
-    for (let i = 0; i < adm.length; i++) {
+   /* for (let i = 0; i < adm.length; i++) {
         if (adm[i].isAdm == true) {
             await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idProfissional } });
 
@@ -374,22 +375,14 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
             break
         }
 
-    }
+    }*/
 
-    for( let i = 0; i < adm.length; i++) {
-        if(adm[i]._id == idClient) {
-            await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idClient } });
 
-            await db.User.updateOne({_id: adm[i].id}, { $push: {clients: idProfissional } });
+            await db.User.updateOne({ isAdm: true }, { $push: { list: idClient } });
+
+            await db.User.updateOne({_id: idClient}, { $push: {clients: idProfissional } });
 
             await db.User.updateOne({_id: idProfissional}, { $push: {clients: idClient } });
-
-            console.log(adm[i]);
-            break
-        }
-
-    }
-
             }
         }
 
