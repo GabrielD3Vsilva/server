@@ -265,10 +265,11 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
 
             await db.User.updateOne({_id: adm[i].id}, { $push: {clients: idProfissional } });
 
-            await db.User.updateOne({_id: idProfissional}, { $push: {clients: idClient } });
-
             console.log(adm[i]);
-            break
+        }
+
+        if(adm[i]._id == idProfissional) {
+            await db.User.updateOne({_id: adm[i].id}, { $push: {clients: idClient } });
         }
 
     }
