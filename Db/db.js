@@ -30,6 +30,13 @@ const UserSchema = mongoose.Schema(
     }
 )
 
+const PaymentSchema = mongoose.Schema(
+    {
+        paymentId: String
+    }
+)
+
 module.exports = {
-    User: mongoose.model('User', UserSchema)
+    User: mongoose.model('User', UserSchema),
+    Payment: mongoose.model('Payment', PaymentSchema)
 }

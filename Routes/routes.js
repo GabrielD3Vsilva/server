@@ -296,18 +296,17 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
         })
 
         if(response.ok) {
-            const data = await response.json();
-
-            console.log(data.status);
-
             if(data.status == "approved") {
+                const paymentProcessed = await db.Payment.findOne({ paymentId: paymentId });
 
-            await db.User.updateOne({ isAdm: true }, { $push: { list: idClient } });
+                if(!paymentProcessed) {
+                    await db.User.updateOne({ isAdm: true }, { $push: { list: idClient } });
+                    await db.User.updateOne({_id: idClient}, { $push: {clients: idProfissional } });
+                    await db.User.updateOne({_id: idProfissional}, { $push: {clients: idClient } });
 
-            await db.User.updateOne({_id: idClient}, { $push: {clients: idProfissional } });
-
-            await db.User.updateOne({_id: idProfissional}, { $push: {clients: idClient } });
-            }
+                    // Salvar o ID do pagamento processado
+                    await db.Payment.create({ paymentId: paymentId });
+                }
         }
 
         
