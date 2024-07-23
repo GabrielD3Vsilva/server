@@ -200,8 +200,6 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
                         await db.User.updateOne({ _id: idProfissional }, { $push: { clients: idClient } });
                         await db.Payment.create({ paymentId: paymentId });
 
-        
-                        const client = await db.User.findOne({_id: idClient});
                        
 
                         let transporter = nodemailer.createTransport({
@@ -231,7 +229,7 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
                             }
                         });
 
-                        const profissional = await db.User.findOne({_id: idProfissional});
+                        
                         
                         const items = await db.User.find();
 
