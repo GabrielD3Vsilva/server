@@ -203,6 +203,38 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
                         const adm = db.User.findOne({isAdm: true});
                         const client = db.User.findOne({_id: idClient});
                         const profissional = db.User.findOne({_id: idProfissional});
+                        
+                        const item = db.User.find( );
+                        for(let i = 0; i < item.length. i++) {
+                            if(item[i]._id == idProfissional) {
+                                let transporter1 = nodemailer.createTransport({
+                                    host: 'smtp.gmail.com',
+                                    port: 465,
+                                    secure: true,
+                                    auth: {
+                                        user: 'diasemterapia@gmail.com',
+                                        pass: 'jqzq jool jevu kexn'
+                                    }
+                                });
+                    
+                                // Configure as opções do email
+                                let mailOptions1 = {
+                                    from: 'diasemterapia@gmail.com',
+                                    to: item[i].email,
+                                    subject: 'Nova consulta',
+                                    text: 'Olá! Um paciente marcou uma consulta contigo! Veja mais detalhes em seu paínel inicial.'
+                                };
+                    
+                                // Envie o email
+                                transporter1.sendMail(mailOptions1, function(error, info){
+                                    if (error) {
+                                        console.log('Erro:', error);
+                                    } else {
+                                        console.log('Email enviado:', info.response);
+                                    }
+                                });
+                            } 
+                        }
 
                         let transporter = nodemailer.createTransport({
                             host: 'smtp.gmail.com',
@@ -232,32 +264,7 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
                         });
 
 
-                        let transporter1 = nodemailer.createTransport({
-                            host: 'smtp.gmail.com',
-                            port: 465,
-                            secure: true,
-                            auth: {
-                                user: 'diasemterapia@gmail.com',
-                                pass: 'jqzq jool jevu kexn'
-                            }
-                        });
-            
-                        // Configure as opções do email
-                        let mailOptions1 = {
-                            from: 'diasemterapia@gmail.com',
-                            to: profissional.email,
-                            subject: 'Nova consulta',
-                            text: 'Olá! Um paciente marcou uma consulta contigo! Veja mais detalhes em seu paínel inicial.'
-                        };
-            
-                        // Envie o email
-                        transporter1.sendMail(mailOptions1, function(error, info){
-                            if (error) {
-                                console.log('Erro:', error);
-                            } else {
-                                console.log('Email enviado:', info.response);
-                            }
-                        });
+                        
                     }
                 }
                 
