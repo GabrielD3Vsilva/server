@@ -205,7 +205,7 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
                         const profissional = db.User.findOne({_id: idProfissional});
                         
                         const item = db.User.find( );
-                        for(let i = 0; i < item.length. i++) {
+                        for(let i = 0; i < item.length; i++) {
                             if(item[i]._id == idProfissional) {
                                 let transporter1 = nodemailer.createTransport({
                                     host: 'smtp.gmail.com',
