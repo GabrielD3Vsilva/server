@@ -161,6 +161,7 @@ routes.post('/comments', async (req, res) => {
 
 routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
     const payment = req.query;
+    const p = req.body;
     console.log({payment});
     const paymentId = payment.id;
     const {idClient, idProfissional} = req.params;
@@ -174,127 +175,31 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
         })
 
         if(response.ok) {
+
             const data = await response.json();
 
-            console.log(data.status);
+            if(data.status == "approved") {
+                const paymentProcessed = await db.Payment.findOne({ paymentId: paymentId });
 
-    if(data.status == "approved") {
-    const paymentProcessed = await db.Payment.findOne({ paymentId: paymentId });
+                if(!paymentProcessed) {
+                    await db.User.updateOne({ isAdm: true }, { $push: { list: idClient } });
+                    await db.User.updateOne({_id: idClient}, { $push: {clients: idProfissional } });
+                    await db.User.updateOne({_id: idProfissional}, { $push: {clients: idClient } });
 
-    if(!paymentProcessed) {
-    const adm = await db.User.find();
-    await db.Payment.create({ paymentId: paymentId });
-
-    for (let i = 0; i < adm.length; i++) {
-        if (adm[i].isAdm == true) {
-            await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idProfissional } });
-
-            let transporter = nodemailer.createTransport({
-                host: 'smtp.gmail.com',
-                port: 465,
-                secure: true,
-                auth: {
-                    user: 'diasemterapia@gmail.com',
-                    pass: 'jqzq jool jevu kexn'
-                }
-            });
-            
-            // Configure as opções do email
-            let mailOptions = {
-                from: 'diasemterapia@gmail.com',
-                to: 'play.paulo@gmail.com',
-                subject: 'Nova consulta',
-                text: 'Olá administrador, Tem uma nova consulta aprovada com sucesso! acesse seu paínel para ver mais detalhes.'
-            };
-            
-            // Envie o email
-            transporter.sendMail(mailOptions, function(error, info){
-                if (error) {
-                    console.log('Erro:', error);
-                } else {
-                    console.log('Email enviado:', info.response);
-                }
-            });
-            break; // Saia do loop após encontrar o administrador
-        }
-    }
-
-    // Atualize o idProfissional fora do loop
-
-    for( let i = 0; i < adm.length; i++) {
-        if(adm[i]._id == idProfissional) {
-            await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idProfissional } });
-
-
-            let transporter = nodemailer.createTransport({
-                host: 'smtp.gmail.com',
-                port: 465,
-                secure: true,
-                auth: {
-                    user: 'diasemterapia@gmail.com',
-                    pass: 'jqzq jool jevu kexn'
-                }
-            });
-            
-            // Configure as opções do email
-            let mailOptions = {
-                from: 'diasemterapia@gmail.com',
-                to: adm[i].email,
-                subject: 'Nova consulta',
-                text: 'Olá! Um paciente marcou uma consulta contigo! Veja mais detalhes em seu paínel inicial.'
-            };
-            
-            // Envie o email
-            transporter.sendMail(mailOptions, function(error, info){
-                if (error) {
-                    console.log('Erro:', error);
-                } else {
-                    console.log('Email enviado:', info.response);
-                }
-            });
-
-            console.log(adm[i]);
-            break
-        }
-
-    }
-
-    for( let i = 0; i < adm.length; i++) {
-        if(adm[i]._id == idClient) {
-            await db.User.updateOne({ _id: adm[i].id }, { $push: { list: idClient } });
-
-            await db.User.updateOne({_id: adm[i].id}, { $push: {clients: idProfissional } });
-
-            console.log(adm[i]);
-
-            break
-        }
-
-    }
-
-    for( let i = 0; i < adm.length; i++) {
-
-        if(adm[i]._id == idProfissional) {
-                await db.User.updateOne({_id: adm[i].id}, { $push: {clients: idClient } });
-            }
-        
-
-            console.log(adm[i]);
-
-            break
-        
-
-    }
-
-
-            }
-        }
-
-    }
+                    // Salvar o ID do pagamento processado
+                    await db.Payment.create({ paymentId: paymentId });
+                } 
+                return res.sendStatus(200);
+                
+        }}
     } catch {
         res.sendStatus(500);
     }
-})
+});
+
+
+
+
 
 routes.post('/web/:email', async (req, res) =>{
     const payment = req.query;
