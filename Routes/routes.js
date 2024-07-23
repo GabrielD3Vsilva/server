@@ -282,7 +282,7 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
             console.log(adm[i]);
 
             break
-        }
+        
 
     }
 
