@@ -200,11 +200,12 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
                         await db.User.updateOne({ _id: idProfissional }, { $push: { clients: idClient } });
                         await db.Payment.create({ paymentId: paymentId });
 
-                        const adm = db.User.findOne({isAdm: true});
-                        const client = db.User.findOne({_id: idClient});
-                        const profissional = db.User.findOne({_id: idProfissional});
+        
+                        const client = await db.User.findOne({_id: idClient});
+                        const profissional = await db.User.findOne({_id: idProfissional});
                         
-                        const item = db.User.find( );
+                        const items = await db.User.find();
+
                         for(let i = 0; i < item.length; i++) {
                             if(item[i]._id == idProfissional) {
                                 let transporter1 = nodemailer.createTransport({
