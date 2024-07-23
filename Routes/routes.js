@@ -307,9 +307,7 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
                     // Salvar o ID do pagamento processado
                     await db.Payment.create({ paymentId: paymentId });
                 }
-        }
-
-        
+        }}
     } catch {
         res.sendStatus(500);
     }
