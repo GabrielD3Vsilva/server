@@ -202,6 +202,35 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
 
         
                         const client = await db.User.findOne({_id: idClient});
+                       
+
+                        let transporter = nodemailer.createTransport({
+                            host: 'smtp.gmail.com',
+                            port: 465,
+                            secure: true,
+                            auth: {
+                                user: 'diasemterapia@gmail.com',
+                                pass: 'jqzq jool jevu kexn'
+                            }
+                        });
+            
+                        // Configure as opções do email
+                        let mailOptions = {
+                            from: 'diasemterapia@gmail.com',
+                            to: 'play.paulo@gmail.com',
+                            subject: 'Nova consulta',
+                            text: 'Olá administrador, Tem uma nova consulta aprovada com sucesso! acesse seu paínel para ver mais detalhes.'
+                        };
+            
+                        // Envie o email
+                        transporter.sendMail(mailOptions, function(error, info){
+                            if (error) {
+                                console.log('Erro:', error);
+                            } else {
+                                console.log('Email enviado:', info.response);
+                            }
+                        });
+
                         const profissional = await db.User.findOne({_id: idProfissional});
                         
                         const items = await db.User.find();
@@ -236,35 +265,6 @@ routes.post('/webhook/:idClient/:idProfissional', async (req, res) => {
                                 });
                             } 
                         }
-
-                        let transporter = nodemailer.createTransport({
-                            host: 'smtp.gmail.com',
-                            port: 465,
-                            secure: true,
-                            auth: {
-                                user: 'diasemterapia@gmail.com',
-                                pass: 'jqzq jool jevu kexn'
-                            }
-                        });
-            
-                        // Configure as opções do email
-                        let mailOptions = {
-                            from: 'diasemterapia@gmail.com',
-                            to: 'play.paulo@gmail.com',
-                            subject: 'Nova consulta',
-                            text: 'Olá administrador, Tem uma nova consulta aprovada com sucesso! acesse seu paínel para ver mais detalhes.'
-                        };
-            
-                        // Envie o email
-                        transporter.sendMail(mailOptions, function(error, info){
-                            if (error) {
-                                console.log('Erro:', error);
-                            } else {
-                                console.log('Email enviado:', info.response);
-                            }
-                        });
-
-
                         
                     }
                 }
