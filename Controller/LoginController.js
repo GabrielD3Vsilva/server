@@ -14,7 +14,8 @@ async function getLoginData (req, res) {
                 {
                     id: userInDb[0]._id,
                     name: userInDb[0].name,
-                    isAdm: userInDb[0].isAdm, 
+                    isAdm: userInDb[0].isAdm,
+                    aprove:  userInDb[0].aprove,
                     isProfissional: userInDb[0].isProfissional,
                     list: userInDb[0].list,
                     agils: userInDb[0].agils,
