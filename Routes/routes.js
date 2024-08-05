@@ -308,4 +308,49 @@ routes.post('/web/:email', async (req, res) =>{
     }
 })
 
+routes.post('/payToConsultReactNative', async ( req, res ) => {
+    const {idClient, idProfissional} = req.body;
+  console.log(idClient, idProfissional);
+
+  const profissional = await db.User.find({_id: idProfissional});
+  let nameProfissional;
+
+  if(profissional.length > 0) {
+    nameProfissional = profissional[0].number;
+    console.log(nameProfissional);
+  }
+
+  const client = new MercadoPagoConfig({ accessToken: "APP_USR-1767806761428068-070620-771a230aa8ff67512387deefe1bd14ef-192552961"});
+    
+  const preference = new Preference(client);
+  
+  const body = {
+    items: [
+      {
+        title: 'Consulta',
+        quantity: 1,
+        currency_id: 'BRL',
+        unit_price: 50,
+      }
+    ],
+    payment_methods: {
+      default_payment_method_id: 'pix'
+    },
+    back_urls: {
+      success: `exp://192.168.0.40:8081`,
+      failure: `exp://192.168.0.40:8081`,
+      pending: `exp://192.168.0.40:8081`
+    },
+    notification_url: `https://server-2-4fun.onrender.com/webhook/${idClient}/${idProfissional}`,
+    auto_return: 'approved',
+  };
+
+  await preference.create({body}).then(async (response)=>{
+    console.log(response);
+    // Configurar o Webhook no Mercado Pago
+
+    res.send(response.init_point);
+  });
+})
+
 module.exports = routes;
