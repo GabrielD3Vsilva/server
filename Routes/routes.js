@@ -5,6 +5,7 @@ const pagSeguro = require('../Controller/pagSeguro');
 const AproveController = require('../Controller/AproveController');
 const db = require('../Db/db');
 const nodemailer = require('nodemailer');
+const { MercadoPagoConfig, Preference, Payment } = require('mercadopago');
 
 
 const routes = express.Router( );
@@ -309,7 +310,7 @@ routes.post('/web/:email', async (req, res) =>{
 })
 
 routes.post('/payToConsultReactNative', async ( req, res ) => {
-    const {idClient, idProfissional} = req.body;
+const {idClient, idProfissional} = req.body;
   console.log(idClient, idProfissional);
 
   const profissional = await db.User.find({_id: idProfissional});
