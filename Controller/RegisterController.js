@@ -21,9 +21,13 @@ async function getRegisterData (req, res) {
 }
 
 async function getRegisterDataToWork (req, res) {
-    const {name, email, password, confirmPassword, skills, photo, number} = req.body;
-    const isEqual = validateIfPasswordsIsEqual(password, confirmPassword);
-    if(isEqual){
+    const {name, email, password, confirmPassword, skills, photo, number, selectedOptions} = req.body;
+
+    console.log('api connected'+selectedOptions);
+
+    return res.status(200).json({message: "OK!"});
+    //const isEqual = validateIfPasswordsIsEqual(password, confirmPassword);
+    /*if(isEqual){
         const exists = await validateIfUserExists(email);
 
         if(!exists){
@@ -62,7 +66,7 @@ async function getRegisterDataToWork (req, res) {
         return res.status(404).json({message: 'erro'});
 
     } 
-    return res.status(400).json({message: "erro"});
+    return res.status(400).json({message: "erro"});*/
 }
 
 function validateIfPasswordsIsEqual(password, confirmPassword) {
