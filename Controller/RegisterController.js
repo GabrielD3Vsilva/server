@@ -22,16 +22,12 @@ async function getRegisterData (req, res) {
 
 async function getRegisterDataToWork (req, res) {
     const {name, email, password, confirmPassword, skills, photo, number, selectedOptions} = req.body;
-
-    console.log('api connected'+selectedOptions);
-
-    return res.status(200).json({message: "OK!"});
-    //const isEqual = validateIfPasswordsIsEqual(password, confirmPassword);
-    /*if(isEqual){
+    const isEqual = validateIfPasswordsIsEqual(password, confirmPassword);
+    if(isEqual){
         const exists = await validateIfUserExists(email);
 
         if(!exists){
-            await createUserToWork(name, email, password, skills, photo, number);
+            await createUserToWork(name, email, password, skills, photo, number, selectedOptions);
 
             let transporter = nodemailer.createTransport({
                 host: 'smtp.gmail.com',
@@ -66,7 +62,7 @@ async function getRegisterDataToWork (req, res) {
         return res.status(404).json({message: 'erro'});
 
     } 
-    return res.status(400).json({message: "erro"});*/
+    return res.status(400).json({message: "erro"});
 }
 
 function validateIfPasswordsIsEqual(password, confirmPassword) {
@@ -104,7 +100,7 @@ async function createUser (name, email, password, number) {
    }
 }
 
-async function createUserToWork (name, email, password, skills, photo, number) {
+async function createUserToWork (name, email, password, skills, photo, number,values) {
     try {
         await db.User.create({
             name: name,
@@ -116,7 +112,8 @@ async function createUserToWork (name, email, password, skills, photo, number) {
             aprove: false,
             photo: photo,
             number: number,
-            vip: false
+            vip: false,
+            array: values
         });
    } catch (error) {
         console.log(error);
