@@ -27,7 +27,7 @@ const UserSchema = mongoose.Schema(
         Rates: [String],
         clients: [String],
         notes: [Number],
-        array: [string],
+        array: [String],
     }
 )
 
